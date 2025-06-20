@@ -373,7 +373,10 @@ if uploaded_files:
 
                                                     st.subheader(f"Inhalte der Zip-Datei: {zip_filename}")
                                                     st.download_button(
-                                                        f"Zip-Datei herunterladen: {zip_filename}", data=part_body, file_name=zip_filename
+                                                        f"Zip-Datei herunterladen: {zip_filename}",
+                                                        data=part_body,
+                                                        file_name=zip_filename,
+                                                        on_click="ignore",
                                                     )
 
                                                     # Preview zip contents
@@ -424,7 +427,12 @@ if uploaded_files:
                                     # Try to treat the entire response as a zip file
                                     with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
                                         st.subheader("Inhalte der Zip-Datei")
-                                        st.download_button("Zip-Datei herunterladen", data=response.content, file_name="FraudScanner.zip")
+                                        st.download_button(
+                                            "Zip-Datei herunterladen",
+                                            data=response.content,
+                                            file_name="FraudScanner.zip",
+                                            on_click="ignore",
+                                        )
 
                                         # Preview zip contents
                                         file_list = zip_ref.namelist()
@@ -454,7 +462,11 @@ if uploaded_files:
                                                         with open(temp_pdf_path, "rb") as pdf_file:
                                                             pdf_bytes = pdf_file.read()
                                                             st.download_button(
-                                                                f"Download {file_name}", data=pdf_bytes, file_name=file_name, mime="application/pdf"
+                                                                f"Download {file_name}",
+                                                                data=pdf_bytes,
+                                                                file_name=file_name,
+                                                                mime="application/pdf",
+                                                                on_click="ignore",
                                                             )
 
                                                         # Clean up the temporary file
@@ -463,10 +475,20 @@ if uploaded_files:
                                                     st.warning(f"Fehler beim Anzeigen der PDF-Datei: {e}")
                                 except zipfile.BadZipFile:
                                     st.warning("Die Antwort enthält keine gültige Zip-Datei")
-                                    st.download_button("Stattdessen rohe Antwort herunterladen", data=response.content, file_name="response.bin")
+                                    st.download_button(
+                                        "Stattdessen rohe Antwort herunterladen",
+                                        data=response.content,
+                                        file_name="response.bin",
+                                        on_click="ignore",
+                                    )
                         except Exception:
                             st.warning("Die Antwort konnte nicht verarbeitet werden")
-                            st.download_button("Rohe Antwort herunterladen", data=response.content, file_name="response.bin")
+                            st.download_button(
+                                "Rohe Antwort herunterladen",
+                                data=response.content,
+                                file_name="response.bin",
+                                on_click="ignore",
+                            )
 
                         # If JSON data contains references to zip files
                         if json_data:
@@ -478,7 +500,12 @@ if uploaded_files:
                                     try:
                                         zip_response = requests.get(value, headers=headers)
                                         if zip_response.status_code == 200:
-                                            st.download_button(f"Download {key}", data=zip_response.content, file_name=f"{key}.zip")
+                                            st.download_button(
+                                                f"Download {key}",
+                                                data=zip_response.content,
+                                                file_name=f"{key}.zip",
+                                                on_click="ignore",
+                                            )
 
                                             # Preview zip contents
                                             with zipfile.ZipFile(io.BytesIO(zip_response.content)) as zip_ref:
@@ -513,8 +540,8 @@ if uploaded_files:
                                                                         data=pdf_bytes,
                                                                         file_name=file_name,
                                                                         mime="application/pdf",
+                                                                        on_click="ignore",
                                                                     )
-
                                                                 # Clean up the temporary file
                                                                 os.unlink(temp_pdf_path)
                                                         except Exception as e:
