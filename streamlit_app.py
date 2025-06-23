@@ -394,6 +394,8 @@ if uploaded_files:
                                                         elif file_name.lower().endswith(".pdf"):
                                                             try:
                                                                 with zip_ref.open(file_name) as file:
+                                                                    image = Image.open("resources/pdf-logo.png")
+                                                                    st.image(image, caption=file_name, width=300)
                                                                     # Create a temporary file to save the PDF
                                                                     with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_pdf:
                                                                         temp_pdf.write(file.read())
@@ -418,6 +420,7 @@ if uploaded_files:
                                                                     os.unlink(temp_pdf_path)
                                                             except Exception as e:
                                                                 st.warning(f"Fehler beim Anzeigen der PDF-Datei: {e}")
+                                                    st.write("---")
                                             except zipfile.BadZipFile:
                                                 st.warning("Die Zip-Datei konnte nicht geöffnet werden")
 
@@ -441,7 +444,7 @@ if uploaded_files:
                                             st.write(f"- {file_name}")
 
                                             # Preview images in the zip
-                                            if file_name.lower().endswith((".png", ".jpg", ".jpeg")):
+                                            if file_name.lower().endswith((".png", ".jpg", ".jpeg", ".webp", ".heic")):
                                                 with zip_ref.open(file_name) as file:
                                                     image = Image.open(file)
                                                     st.image(image, caption=file_name, width=300)
@@ -473,6 +476,7 @@ if uploaded_files:
                                                         os.unlink(temp_pdf_path)
                                                 except Exception as e:
                                                     st.warning(f"Fehler beim Anzeigen der PDF-Datei: {e}")
+                                            st.write("---")
                                 except zipfile.BadZipFile:
                                     st.warning("Die Antwort enthält keine gültige Zip-Datei")
                                     st.download_button(
@@ -515,7 +519,7 @@ if uploaded_files:
                                                     st.write(f"- {file_name}")
 
                                                     # Preview images in the zip
-                                                    if file_name.lower().endswith((".png", ".jpg", ".jpeg")):
+                                                    if file_name.lower().endswith((".png", ".jpg", ".jpeg", ".webp", ".heic")):
                                                         with zip_ref.open(file_name) as file:
                                                             image = Image.open(file)
                                                             st.image(image, caption=file_name, width=300)
@@ -546,6 +550,7 @@ if uploaded_files:
                                                                 os.unlink(temp_pdf_path)
                                                         except Exception as e:
                                                             st.warning(f"Fehler beim Anzeigen der PDF-Datei: {e}")
+                                                    st.write("---")
                                     except Exception as e:
                                         st.error(f"Fehler beim Herunterladen oder Verarbeiten der Zip-Datei: {e}")
                     else:
